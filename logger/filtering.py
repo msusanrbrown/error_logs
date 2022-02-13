@@ -33,4 +33,4 @@ def filtering_log(data, query):
 
         
 
-    return result
+   
