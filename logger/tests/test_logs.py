@@ -1,7 +1,7 @@
-from distutils.log import Log
-from syslog import LOG_AUTH
+
+import logger.logs as logs
 from ..logs import process_log
-from unittest.mock import MagicMock, patch, Mock
+from unittest.mock import MagicMock, patch, Mock, call
 from io import StringIO
 
 LOG = ['20211102T00:00 - APP - SUCCESS: No problem here.', 
@@ -21,22 +21,30 @@ def test_process_log__bad_input():
     result = process_log(data)
     # assert False
     assert result == {'ErrorCount': 0, 'SuccessCount': 0, 'Total': 0}
+    assert logs.convert_to_string.call_args_list == [call(data)]
 
 @patch('logger.logs.convert_to_string', MagicMock(return_value=''))
-def test_process_log__no_input():
-    content = StringIO('hi')
+def test_process_log__empty_input():
+    content = StringIO('')
     # content.write('hi')
     data = {'Body':content}
     result = process_log(data)
     # assert False
     assert result == {'ErrorCount': 0, 'SuccessCount': 0, 'Total': 0}
+    assert logs.convert_to_string.call_args_list == [call(data)]
+
 
 @patch('logger.logs.convert_to_string', MagicMock(return_value='\n'.join(LOG)))
 def test_process_log__all_info():
+    
     content = StringIO('hi')
     # content.write('hi')
     data = {'Body':content}
     result = process_log(data)
-    # assert False
     assert result == {'ErrorCount': 5, 'SuccessCount': 1, 'Total': 7}
+    assert logs.convert_to_string.call_args_list == [call(data)]
+    
+
+
+    
 

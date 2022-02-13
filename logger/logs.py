@@ -1,15 +1,14 @@
 import re
 
-PATTERN = r'^(\d{8}T\d{2}:\d{2}) - (\w+) - (\w+)( \[\d\])?: (.+)$'
+from logger.converter import convert_to_string
+from logger.patterns import PATTERN
 
-def convert_to_string(data):
-    content = data['Body'].read().decode("utf-8")
-    return content
+
+
 
 def process_log(data):
-    print(convert_to_string)
+    
     content = convert_to_string(data)
-    print(content)
     result = {'ErrorCount':0, 'SuccessCount':0, 'Total':0}
     lines = content.split('\n')
     for line in lines:
@@ -26,6 +25,7 @@ def process_log(data):
         result['Total']+=1
 
     return result
+
 
 
 
