@@ -9,7 +9,7 @@ The file policies.json contains information necessary for the lambda functions.
 
 To run the tests:
 
-1. Open a terminal and create an environment by typing:
+1. In VS Code open a terminal and create an environment by typing:
 
 pipenv shell
 
